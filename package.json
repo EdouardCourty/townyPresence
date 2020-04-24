@@ -1,0 +1,30 @@
+{
+  "name": "myselfbot",
+  "version": "1.0.0",
+  "description": "The best selfbot for Discord. Enhancing the user experience thanks to commands and smart behaviours.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EdouardCourty/mySelfbot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/EdouardCourty/mySelfbot/issues"
+  },
+  "homepage": "https://github.com/EdouardCourty/mySelfbot#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "colors": "^1.4.0",
+    "discord.js": "^11.6.3",
+    "dotenv": "^8.2.0",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.5",
+    "user-instagram": "^2.0.8"
+  }
+}
