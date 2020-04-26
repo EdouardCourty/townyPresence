@@ -3,7 +3,7 @@ const fs = require("fs");
 const checkProximityHandler = require("../handlers/checkProximityHandler");
 const checkOnlineStatusHandler = require("../handlers/checkOnlineStatusHandler");
 
-exports.run = (client, message, args) => {
+exports.run = (client, message) => {
   const REQUEST_URL = "https://earthmc.net/map/up/world/earth/";
   let isFirst = true;
   requestPlayers(Date.now(), REQUEST_URL, message, isFirst);
@@ -12,9 +12,9 @@ exports.run = (client, message, args) => {
     requestPlayers(Date.now(), REQUEST_URL, message, isFirst);
   }, 10000);
 
-  client.on("stopMonitoring", () => {
+  client.on("stopMonitoring", async () => {
     clearInterval(interval);
-    message.channel.send("Stopped the monitoring.")
+    await message.channel.send("Stopped the monitoring.")
   })
 };
 
@@ -23,14 +23,21 @@ exports.info = {
   description: "Monitors players in the claimed zone."
 };
 
+/**
+ * @param {Number} timestamp
+ * @param {String} url
+ * @param {Object} message
+ * @param {Boolean} isFirst
+ */
 function requestPlayers(timestamp, url, message, isFirst) {
   let date = new Date(timestamp - 7200);
 
   if (isFirst) {
-    sendMessage(timestamp, url, message, date, false, isFirst)
+    sendMessage(timestamp, url, message, date, false)
   } else {
     const messageId = fs.readFileSync("./data/embedMessageID.json").toString();
-    message.channel.fetchMessages({ limit: 1, around: messageId }).then(async messages => {
+    const filterById = message =>  message.id === messageId;
+    message.channel.awaitMessages(filterById).then(async messages => {
       let lastMessage = messages.first();
 
       if (lastMessage.author.bot) {
@@ -40,7 +47,14 @@ function requestPlayers(timestamp, url, message, isFirst) {
   }
 }
 
-function sendMessage(timestamp, url, message, date, edit, isFirst) {
+/**
+ * @param {Number} timestamp
+ * @param {String} url
+ * @param {Object} message
+ * @param {Date} date
+ * @param {Boolean} edit
+ */
+function sendMessage(timestamp, url, message, date, edit) {
   axios.get(url)
     .then(async data => {
       const proximity = checkProximityHandler(timestamp, data);

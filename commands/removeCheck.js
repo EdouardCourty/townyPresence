@@ -1,6 +1,6 @@
 const fs = require("fs");
 
-exports.run = (client, message, args) => {
+exports.run = async (client, message, args) => {
   let playerName = args[0];
   if (!playerName) {
     return message.channel.send("Please specify a username.");
@@ -10,7 +10,7 @@ exports.run = (client, message, args) => {
   delete checkList[checkList.indexOf(playerName)];
   fs.writeFileSync("./checklist.json", JSON.stringify(checkList, null, 2));
 
-  message.channel.send(`Removed ${playerName} from the checklist.`);
+  await message.channel.send(`Removed ${playerName} from the checklist.`);
 };
 
 exports.info = {

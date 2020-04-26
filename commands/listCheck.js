@@ -1,8 +1,8 @@
-exports.run = (client, message, args) => {
+exports.run = async (client, message) => {
   /** @type Array */
   let checklist = require("../checklist");
 
-  message.channel.send(`**The players that are in the checklist are:**
+  await message.channel.send(`**The players that are in the checklist are:**
  · ${checklist.join("\n · ")}`);
 };
 

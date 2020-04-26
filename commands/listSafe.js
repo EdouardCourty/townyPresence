@@ -1,8 +1,8 @@
-exports.run = (client, message, args) => {
+exports.run = async (client, message) => {
   /** @type Array */
   let safelist = require("../safelist");
 
-  message.channel.send(`**The players that are in the safelist are:**
+  await message.channel.send(`**The players that are in the safelist are:**
  · ${safelist.join("\n · ")}`);
 };
 

@@ -17,6 +17,5 @@ module.exports = (client, message) => {
   message.content     = message.isCommand ? message.args.join(" ") : message.content;
 
   if (message.isCommand && isSentByUser && userIsAdmin) utils.runCommand(client, message);
-
-  if (!client.lastDidEcho) utils.log(message);
+  utils.log(message);
 };
