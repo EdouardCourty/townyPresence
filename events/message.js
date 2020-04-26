@@ -4,6 +4,7 @@ module.exports = (client, message) => {
   // Listening condition
   message.isListened = true;
   message.isCommand  = message.content.startsWith(process.env.COMMAND_PREFIX) ? 1 : 0;
+  let userIsAdmin = message.member.hasPermission("ADMINISTRATOR");
   // User-specific listening condition
   const isSentByUser = true;
 
@@ -11,11 +12,11 @@ module.exports = (client, message) => {
 
   message.args        = message.content.split(" ");
   message.fullArgs    = message.args;
-  message.commandName = message.isCommand ? message.args.shift().slice(1) : undefined;
+  message.commandName = message.isCommand ? message.args.shift().slice(1).toLowerCase() : undefined;
   message.baseContent = message.isCommand ? message.content : undefined;
   message.content     = message.isCommand ? message.args.join(" ") : message.content;
 
-  if (message.isCommand && isSentByUser) utils.runCommand(client, message);
+  if (message.isCommand && isSentByUser && userIsAdmin) utils.runCommand(client, message);
 
   if (!client.lastDidEcho) utils.log(message);
 };

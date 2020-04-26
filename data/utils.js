@@ -1,6 +1,5 @@
 require("colors");
 const fs = require("fs");
-const axios = require("axios");
 
 module.exports = {
   /**
@@ -27,7 +26,7 @@ module.exports = {
       .forEach(file => {
         console.log(` > ${file} loaded !`);
         let command = require(`../commands/${file}`);
-        let commandName = command.info.name;
+        let commandName = command.info.name.toLowerCase();
         client.commands.set(commandName, command);
       });
     client.availableCommands = [...client.commands.keys()];
