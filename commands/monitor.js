@@ -10,6 +10,7 @@ exports.run = (client, message) => {
 
   message.channel.send("Started the monitoring, awaiting data from the DynMap...")
     .then(msg => {
+      client.isMonitoring = true;
       eventBus.on("firstLaunch", () => {
         isFirstLaunch = false;
         msg.delete()
@@ -21,6 +22,7 @@ exports.run = (client, message) => {
   }, 10000);
 
   eventBus.on("stopMonitoring", async () => {
+    client.isMonitoring = false;
     clearInterval(interval);
     await message.channel.send("Stopped the monitoring.")
   });
@@ -112,8 +114,8 @@ function sendMessage(timestamp, url, message, date, edit) {
         await message.edit(messageContent);
       }
     })
-    .catch(async e => {
-      await message.channel.send(getErrorEmbed(date, e));
+    .catch(() => {
+      getPlayerList()
     })
 }
 
