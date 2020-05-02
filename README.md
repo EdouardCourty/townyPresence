@@ -1,26 +1,21 @@
-# mySelfbot
-The best selfbot for Discord. Enhancing the user experience thanks to commands and smart behaviours.
+# tonwyPresence
+Based on my [DiscordBotTemplate](https://github.com/EdouardCourty/DiscordBotTemplate) repository.
 
 ### Features list
 
-I'm constantly adding new features, nut here is a list of the ones that are actually stables.
- - Getting the avatar of a user: ``
+This bot is mainly a monitor and a 
 
-### Environment variables
-The `.env` file is not committed in git since it contains my private token.
-Its structure is the following:
-```dotenv
-APPLICATION_TOKEN: "Your UserToken",
-COMMAND_PREFIX: "!",
-APPLICATION_LOG_LEVEL: "all"
-```
-To get your token, open Discord and enter the developer tools. <br>
-If you are connected on the Discord App, press Control + Shift + I (Windows), or Option + Command + I (Macintosh). <br><br>
-Then navigate to the "Application" tab, and to "Local Storage" and refresh (Control + R (Windows) or Command + R (Macintosh)). <br><br>
-You should see your token appearing at the bottom of all the entries, just copy and paste it in the JSON file !
+I'm constantly adding new features, but here is a list of the ones that are actually stables.
+ - Getting the skin of a player: `!getskin <PlayerName>`
+ - Getting a screenshot of my claimed zone from the DynMap `!screenshot`
+ - `!monitor` Starts a monitoring loop that scrapes the server's DynMap API and process the data to compute data about any foreigner being in my claims (without the ones in the `safelist.json` file)
+ - `!stopMonitor` stops the monitoring service
+ - `!addCheck <PlayerName>` & `!addSafe <PlayerName>` respectively adds the provided Player Name in the corresponding list
+ - `!removeCheck <PlayerName>` & `!removeSafe <PlayerName>` respectively removes the provided Player Name in the corresponding list
+ - `!checlkist` & `!safelist` respectively logs the users that are registered in the corresponding list
+ - `!delete <1-99>` deletes the given amount of messages, up to 100.
+ -  `!ping` returns in milliseconds the bot's ping, and the API latency ping
 
-The `APPLICATION_LOG_LEVEL` entry of the `.env` file entry can be set to three different values:
- - `"all"`
- - `"messagesOnly"`
- - `"commandsOnly"`
- - `"none"`
+If you have any suggestions, feel ree to submit a pull request or message me on Discord: Edouard#4838
+
+© Edouard Courty - 2020
