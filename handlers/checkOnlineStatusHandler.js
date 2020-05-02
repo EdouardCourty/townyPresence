@@ -1,6 +1,6 @@
 module.exports = (timestamp, data) => {
   /** @type {Array} */
-  const checkList = require("../checklist.json");
+  const checkList = require("../config/checklist.json");
   
   let onlinePlayers = data.data.players;
 
@@ -9,6 +9,6 @@ module.exports = (timestamp, data) => {
   });
 
   return filtered.length > 0
-    ? `Online players: \n > ${filtered.map(n => n.name).join(",\n > ")}`
+    ? `Online players: \n > ${filtered.map(n => `${n.name} - **X:** ${n.x}, **Z:** ${n.z}`).join(",\n > ")}`
     : "No monitored player online."
 };

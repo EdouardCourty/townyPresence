@@ -1,19 +1,18 @@
-const fs = require("fs");
+const takeScreenshot = require("../handlers/screenshotHandler");
+const options = require("../config/screenshotCoords");
 
-exports.run = async (client, message, args) => {
-  let playerName = args[0];
-  if (!playerName) {
-    return message.channel.send("Please specify a username.");
-  }
-  /** @type Array */
-  let checkList = require("../checklist");
-  checkList.push(playerName);
-  fs.writeFileSync("./checklist.json", JSON.stringify(checkList, null, 2));
-
-  await message.channel.send(`Added ${playerName} to the checklist.`);
+exports.run = (client, message) => {
+  message.channel.send(`Capturing screenshot for area around ${options.x} / ${options.y} / ${options.z}, zoomed ${options.zoom}x...`).then(message => {
+    takeScreenshot(options).then(path => {
+      message.channel.send({files: [path]}).then(async () => {
+        await message.delete()
+      })
+    })
+  });
 };
 
 exports.info = {
-  name       : "addCheck",
-  description: "Adds a player to the checklist."
+  name       : "screenshot",
+  description: "Sends a screenshot of New_Cayenne as it is displayed on the DynMap.",
+  commandExample: "!screenshot"
 };

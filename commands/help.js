@@ -1,19 +1,22 @@
-const fs = require("fs");
-
 exports.run = async (client, message, args) => {
-  let playerName = args[0];
-  if (!playerName) {
-    return message.channel.send("Please specify a username.");
-  }
-  /** @type Array */
-  let checkList = require("../config/checklist");
-  checkList.push(playerName);
-  fs.writeFileSync("./checklist.json", JSON.stringify(checkList, null, 2));
-
-  await message.channel.send(`Added ${playerName} to the checklist.`);
+  await message.channel.send({
+    embed: {
+      color: 3236556,
+      title: "Help panel",
+      fields: Array.from(client.commands.keys()).map(key => {
+        const commandInfo = client.commands.get(key).info;
+        return {
+          name: `__**${commandInfo.name}**__`,
+          value: `${commandInfo.description}\n\`${commandInfo.commandExample}\``,
+          inline: true
+        }
+      })
+    }
+  })
 };
 
 exports.info = {
-  name       : "addCheck",
-  description: "Adds a player to the checklist."
+  name       : "help",
+  description: "Gives information about the commands this bot can launch.",
+  commandExample: "!help"
 };

@@ -1,7 +1,5 @@
 const eventBus = require("../lib/eventBus");
 
-eventBus.on("psartek", () => {
-  console.log("Psartek !")
-});
+require("./eventBusTest")();
 
 eventBus.emit("psartek");

@@ -1,4 +1,7 @@
 exports.run = (client, message, args) => {
+  if (!args[0]) {
+    return message.channel.send("Please specify a number of messages to delete.");
+  }
   let toDelete = parseInt(args[0]) + 1;
   message.channel.send(`Deleting ${toDelete} messages.`)
     .then(message => {
@@ -11,5 +14,6 @@ exports.run = (client, message, args) => {
 
 exports.info = {
   name       : "delete",
-  description: "Deletes a specified amount of messages."
+  description: "Deletes a specified amount of messages.",
+  commandExample: "!delete 10"
 };

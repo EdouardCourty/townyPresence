@@ -6,7 +6,7 @@ exports.run = async (client, message, args) => {
     return message.channel.send("Please specify a username.");
   }
   /** @type Array */
-  let checkList = require("../safelist");
+  let checkList = require("../config/safelist");
   checkList.push(playerName);
   fs.writeFileSync("./safelist.json", JSON.stringify(checkList, null, 2));
 
@@ -14,6 +14,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.info = {
-  name       : "addSafe",
-  description: "Adds a player to the safelist."
+  name       : "addsafe",
+  description: "Adds a player to the safelist.",
+  commandExample: "!addsafe PHP_Sensei"
 };

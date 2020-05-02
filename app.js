@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const utils   = require("./data/utils.js");
+const utils   = require("./lib/utils.js");
 require("dotenv").config();
 
 let client = new Discord.Client();

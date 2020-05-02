@@ -6,7 +6,7 @@ exports.run = async (client, message, args) => {
     return message.channel.send("Please specify a username.");
   }
   /** @type Array */
-  let safelist = require("../safelist");
+  let safelist = require("../config/safelist");
   delete safelist[safelist.indexOf(playerName)];
   fs.writeFileSync("./checklist.json", JSON.stringify(safelist, null, 2));
 
@@ -15,5 +15,6 @@ exports.run = async (client, message, args) => {
 
 exports.info = {
   name       : "removesafe",
-  description: "Removes a player from the safelist."
+  description: "Removes a player from the safelist.",
+  commandExample: "!removesafe PHP_Sensei"
 };

@@ -6,7 +6,7 @@ exports.run = async (client, message, args) => {
     return message.channel.send("Please specify a username.");
   }
   /** @type Array */
-  let checkList = require("../checklist");
+  let checkList = require("../config/checklist");
   checkList.push(playerName);
   fs.writeFileSync("./checklist.json", JSON.stringify(checkList, null, 2));
 
@@ -14,6 +14,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.info = {
-  name       : "addCheck",
-  description: "Adds a player to the checklist."
+  name       : "addcheck",
+  description: "Adds a player to the checklist.",
+  commandExample: "!addcheck PHP_Sensei"
 };

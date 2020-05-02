@@ -2,7 +2,7 @@ const fs = require("fs");
 
 module.exports = (timestamp, data) => {
   /** @type {Array} */
-  const safeList = require("../safelist.json");
+  const safeList = require("../config/safelist.json");
 
   let newData = {
     "timestamp": timestamp,

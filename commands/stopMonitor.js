@@ -1,8 +1,11 @@
-exports.run = (client, message, args) => {
-  client.emit("stopMonitoring");
+const eventBus = require("../lib/eventBus");
+
+exports.run = () => {
+  eventBus.emit("stopMonitoring");
 };
 
 exports.info = {
-  name       : "stopMonitor",
-  description: "Stops the monitoring."
+  name       : "stopmonitor",
+  description: "Stops the monitoring.",
+  commandExample: "!stopmonitor"
 };

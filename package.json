@@ -21,8 +21,10 @@
   "dependencies": {
     "axios": "^0.19.2",
     "colors": "^1.4.0",
-    "discord.js": "^12.2.0",
+    "discord.js": "^11.6.3",
     "dotenv": "^8.2.0",
+    "node-vibrant": "^3.1.5",
+    "puppeteer": "^3.0.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.5",
     "user-instagram": "^2.0.8"

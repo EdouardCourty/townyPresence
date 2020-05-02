@@ -1,20 +1,25 @@
-const fs = require("fs");
-
 exports.run = async (client, message, args) => {
-  let playerName = args[0];
-  if (!playerName) {
-    return message.channel.send("Please specify a username.");
-  }
-  /** @type Array */
-  let checkList = require("../config/checklist");
-  checkList.push(playerName);
-  fs.writeFileSync("./checklist.json", JSON.stringify(checkList, null, 2));
-
-  await message.channel.send(`Added ${playerName} to the checklist.`);
+  let ping = Date.now() - message.createdTimestamp;
+  await message.channel.send({
+    embed: {
+      color: 12399521,
+      fields: [
+        {
+          name: "Bot R/S latency",
+          value: `${ping} ms`
+        },
+        {
+          name: "Discord API Latency",
+          value: `${client.ping} ms`
+        }
+      ],
+      footer: new Date(Date.now() + 7200)
+    }
+  })
 };
 
 exports.info = {
-  name       : "addcheck",
-  description: "Adds a player to the checklist.",
-  commandExample: "!addcheck PHP_Sensei"
+  name       : "ping",
+  description: "Returns the bot and API latency.",
+  commandExample: "!ping"
 };

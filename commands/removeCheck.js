@@ -6,7 +6,7 @@ exports.run = async (client, message, args) => {
     return message.channel.send("Please specify a username.");
   }
   /** @type Array */
-  let checkList = require("../checklist");
+  let checkList = require("../config/checklist");
   delete checkList[checkList.indexOf(playerName)];
   fs.writeFileSync("./checklist.json", JSON.stringify(checkList, null, 2));
 
@@ -15,5 +15,6 @@ exports.run = async (client, message, args) => {
 
 exports.info = {
   name       : "removecheck",
-  description: "Removes a player from the checklist."
+  description: "Removes a player from the checklist.",
+  commandExample: "!removecheck PHP_Sensei"
 };

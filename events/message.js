@@ -1,4 +1,4 @@
-const utils = require("../data/utils");
+const utils = require("../lib/utils");
 
 module.exports = (client, message) => {
   // Listening condition
