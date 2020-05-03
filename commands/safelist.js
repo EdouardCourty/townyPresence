@@ -6,6 +6,7 @@ exports.run = async (client, message) => {
     embed: {
       title: "safelist.json",
       description: "All the users that are not monitored.",
+      color: 2613284,
       fields: [
         {
           name: "Players",
