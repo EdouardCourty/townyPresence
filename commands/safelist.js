@@ -2,8 +2,18 @@ exports.run = async (client, message) => {
   /** @type Array */
   let safelist = require("../config/safelist");
 
-  await message.channel.send(`**The players that are in the safelist are:**
- · ${safelist.join("\n · ")}`);
+  await message.channel.send({
+    embed: {
+      title: "safelist.json",
+      description: "All the users that are not monitored.",
+      fields: [
+        {
+          name: "Players",
+          value: ` > ${safelist.join("\n > ")}`
+        }
+      ]
+    }
+  });
 };
 
 exports.info = {
