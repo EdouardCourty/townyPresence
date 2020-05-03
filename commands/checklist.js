@@ -7,7 +7,7 @@ exports.run = async (client, message) => {
 };
 
 exports.info = {
-  name       : "checklist",
+  name       : "Checklist",
   description: "List all the players that are in the checklist.",
   commandExample: "!checklist"
 };

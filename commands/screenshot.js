@@ -12,7 +12,7 @@ exports.run = (client, message) => {
 };
 
 exports.info = {
-  name       : "screenshot",
+  name       : "Screenshot",
   description: "Sends a screenshot of New_Cayenne as it is displayed on the DynMap.",
   commandExample: "!screenshot"
 };

@@ -14,7 +14,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.info = {
-  name       : "removecheck",
+  name       : "RemoveCheck",
   description: "Removes a player from the checklist.",
   commandExample: "!removecheck PHP_Sensei"
 };

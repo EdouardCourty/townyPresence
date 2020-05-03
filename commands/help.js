@@ -16,7 +16,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.info = {
-  name       : "help",
+  name       : "Help",
   description: "Gives information about the commands this bot can launch.",
   commandExample: "!help"
 };

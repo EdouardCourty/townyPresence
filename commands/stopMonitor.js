@@ -9,7 +9,7 @@ exports.run = (client, message) => {
 };
 
 exports.info = {
-  name       : "stopmonitor",
+  name       : "StopMonitor",
   description: "Stops the monitoring.",
   commandExample: "!stopmonitor"
 };

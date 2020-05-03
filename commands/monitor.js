@@ -29,7 +29,7 @@ exports.run = (client, message) => {
 };
 
 exports.info = {
-  name       : "monitor",
+  name       : "Monitor",
   description: "Monitors players in the configured zone.",
   commandExample: "!monitor"
 };

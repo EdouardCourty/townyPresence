@@ -14,7 +14,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.info = {
-  name       : "addcheck",
+  name       : "AddCheck",
   description: "Adds a player to the checklist.",
   commandExample: "!addcheck PHP_Sensei"
 };
