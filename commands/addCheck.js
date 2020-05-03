@@ -7,6 +7,9 @@ exports.run = async (client, message, args) => {
   }
   /** @type Array */
   let checkList = require("../config/checklist");
+  if (checkList.includes(playerName)) {
+    return message.channel.send(`${playerName} is already registered in the checklist`);
+  }
   checkList.push(playerName);
   fs.writeFileSync("./checklist.json", JSON.stringify(checkList, null, 2));
 

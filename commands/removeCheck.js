@@ -7,6 +7,9 @@ exports.run = async (client, message, args) => {
   }
   /** @type Array */
   let checkList = require("../config/checklist");
+  if (!checkList.includes(playerName)) {
+    return message.channel.send(`${playerName} is not registered in the checklist`);
+  }
   delete checkList[checkList.indexOf(playerName)];
   fs.writeFileSync("./checklist.json", JSON.stringify(checkList, null, 2));
 
