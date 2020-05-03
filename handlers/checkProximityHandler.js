@@ -1,4 +1,4 @@
-const fs = require("fs");
+const PlayerCoordinates = require("../classes/PlayerCoordinates");
 
 module.exports = (timestamp, data) => {
   /** @type {Array} */
@@ -8,11 +8,11 @@ module.exports = (timestamp, data) => {
     "timestamp": timestamp,
     "players": data.data.players.map(player => {
       if (player.x > -10100 && player.x < -9900 && player.z > -1200 && player.z < -1050) {
-        return player
+        return new PlayerCoordinates(player)
       }
     }).filter(p => {
       let keep = p != null;
-      keep = keep ? !safeList.includes(p.name) : keep;
+      keep = keep ? !safeList.includes(p.playerName) : keep;
       return keep
     })
   };
