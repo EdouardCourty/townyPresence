@@ -73,9 +73,9 @@ function sendMessage(timestamp, url, message, date, edit) {
     .then(async data => {
       const proximityData = checkProximityHandler(timestamp, data);
       const onlineStatus = checkOnlineStatusHandler(timestamp, data);
-      /** @type Array */
+      /** @type Array<String> */
       const checkList = require("../config/checklist");
-      /** @type Array */
+      /** @type Array<String> */
       const safeList = require("../config/safelist");
       const zoneCount = MonitoredZone.getAllZonesFromJSON().length;
       const messageContent = {
