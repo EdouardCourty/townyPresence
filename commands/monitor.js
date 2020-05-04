@@ -71,7 +71,7 @@ function requestPlayers(timestamp, url, message, isFirst) {
 function sendMessage(timestamp, url, message, date, edit) {
   getPlayerList()
     .then(async data => {
-      const proximity = checkProximityHandler(timestamp, data);
+      const proximityData = checkProximityHandler(timestamp, data);
       const onlineStatus = checkOnlineStatusHandler(timestamp, data);
       /** @type Array */
       const checkList = require("../config/checklist");
@@ -79,33 +79,7 @@ function sendMessage(timestamp, url, message, date, edit) {
       const safeList = require("../config/safelist");
       const zoneCount = MonitoredZone.getAllZonesFromJSON().length;
       const messageContent = {
-        embed: {
-          title: "EarthMC Monitor",
-          description: "Ultimate EarthMC tracking system",
-          footer: {
-            "text": `Last update: ${date}\nRandom number: ${(Math.random()*10).toFixed(4)}`
-          },
-          color: 9617173,
-          fields: [
-            {
-              name: "checklist.json",
-              value: ` > ${checkList.join("\n > ")}`,
-              inline: true
-            },
-            {
-              name: "safelist.json",
-              value: ` > ${safeList.join("\n > ")}`,
-              inline: true
-            },
-            {
-              name: "Checking online status from the checklist.json",
-              value: onlineStatus
-            }, {
-              name: `Monitoring ${zoneCount} zones`,
-              value: proximity
-            }
-          ]
-        }
+        embed: require("../lib/getEmbed")(date, checkList, safeList, onlineStatus, zoneCount, proximityData)
       };
       if (edit === false) {
         await message.channel.send(messageContent).then(message => {
