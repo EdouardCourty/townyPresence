@@ -17,12 +17,12 @@ class MonitoredZone {
     }
 
     /**
-     * @param {PlayerCoordinates} coordData
+     * @param {PlayerCoordinates} playerCoordinates
      * @param {MonitoredZone} zone
      * @return {string|boolean} zoneName
      */
-    static isPlayerInZone(coordData, zone) {
-        return coordData.x > zone.leftX && coordData.x < zone.rightX && coordData.z > zone.topZ && coordData.z < zone.bottomZ
+    static isPlayerInZone(playerCoordinates, zone) {
+        return playerCoordinates.x > zone.leftX && playerCoordinates.x < zone.rightX && playerCoordinates.z > zone.topZ && playerCoordinates.z < zone.bottomZ
             ? zone.name
             : false;
     }
