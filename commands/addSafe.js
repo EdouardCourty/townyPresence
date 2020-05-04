@@ -8,10 +8,10 @@ exports.run = async (client, message, args) => {
   /** @type Array */
   let safelist = require("../config/safelist");
   if (safelist.includes(playerName)) {
-    return message.channel.send(`${playerName} is already registered in the safelist`);
+    return message.channel.send(`${playerName} is already registered in the safelist.`);
   }
   safelist.push(playerName);
-  fs.writeFileSync("./safelist.json", JSON.stringify(safelist, null, 2));
+  fs.writeFileSync("./config/safelist.json", JSON.stringify(safelist, null, 2));
 
   await message.channel.send(`Added ${playerName} to the safelist.`);
 };

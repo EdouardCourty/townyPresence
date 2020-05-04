@@ -3,7 +3,7 @@ start:
 
 setup:
 	cp .env.dist .env
-	cp ./config/serverlist.json.dist ./config/serverlist.json
+	cp ./config/whitelist.json.dist ./config/whitelist.json
 	npm install
 
 test:
