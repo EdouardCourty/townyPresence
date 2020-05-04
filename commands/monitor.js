@@ -4,6 +4,7 @@ const checkProximityHandler = require("../handlers/checkProximityHandler");
 const checkOnlineStatusHandler = require("../handlers/checkOnlineStatusHandler");
 const getPlayerList = require("../lib/getPlayerList");
 const MonitoredZone = require("../classes/MonitoredZone");
+const EmbedSender = require("../classes/EmbedSender");
 
 exports.run = (client, message) => {
   let isFirstLaunch = true;
@@ -70,26 +71,26 @@ function requestPlayers(timestamp, url, message, isFirst) {
  */
 function sendMessage(timestamp, url, message, date, edit) {
   getPlayerList().then(async data => {
-      const proximityData = checkProximityHandler(timestamp, data);
-      const onlineStatus = checkOnlineStatusHandler(timestamp, data);
-      /** @type Array<String> */
-      const checkList = require("../config/checklist");
-      /** @type Array<String> */
-      const safeList = require("../config/safelist");
-      const zoneCount = MonitoredZone.getAllZonesFromJSON().length;
-      const messageContent = {
-        embed: require("../lib/getEmbed")(date, checkList, safeList, onlineStatus, zoneCount, proximityData)
-      };
-      if (edit === false) {
-        await message.channel.send(messageContent).then(message => {
-          fs.writeFileSync("./data/embedMessageID.json", message.id);
-        })
-      } else {
-        await message.edit(messageContent);
-      }
-    }).catch(() => {
-      getPlayerList()
-    })
+    const proximityData = checkProximityHandler(timestamp, data);
+    const onlineStatus = checkOnlineStatusHandler(timestamp, data);
+    /** @type Array<String> */
+    const checkList = require("../config/checklist");
+    /** @type Array<String> */
+    const safeList = require("../config/safelist");
+    const zoneCount = MonitoredZone.getAllZonesFromJSON().length;
+    const messageContent = {
+        embed: EmbedSender.getEmbed(date, checkList, safeList, onlineStatus, zoneCount, proximityData)
+    };
+    if (edit === false) {
+      await message.channel.send(messageContent).then(message => {
+        fs.writeFileSync("./data/embedMessageID.json", message.id);
+      })
+    } else {
+      await message.edit(messageContent);
+    }
+  }).catch(() => {
+    getPlayerList()
+  })
 }
 
 function getErrorEmbed(date, e) {
