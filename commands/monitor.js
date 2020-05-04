@@ -69,8 +69,7 @@ function requestPlayers(timestamp, url, message, isFirst) {
  * @param {Boolean} edit
  */
 function sendMessage(timestamp, url, message, date, edit) {
-  getPlayerList()
-    .then(async data => {
+  getPlayerList().then(async data => {
       const proximityData = checkProximityHandler(timestamp, data);
       const onlineStatus = checkOnlineStatusHandler(timestamp, data);
       /** @type Array<String> */
@@ -88,8 +87,7 @@ function sendMessage(timestamp, url, message, date, edit) {
       } else {
         await message.edit(messageContent);
       }
-    })
-    .catch(() => {
+    }).catch(() => {
       getPlayerList()
     })
 }
