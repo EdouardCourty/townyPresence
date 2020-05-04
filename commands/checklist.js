@@ -4,13 +4,13 @@ exports.run = async (client, message) => {
 
   await message.channel.send({
     embed: {
-      title: "safelist.json",
+      title: "checklist.json",
       description: "All the users that are not monitored.",
       color: 14689319,
       fields: [
         {
           name: "Players",
-          value: ` > ${checklist.join("\n > ")}`
+          value: ` > ${checklist.players.join("\n > ")}`
         }
       ]
     }

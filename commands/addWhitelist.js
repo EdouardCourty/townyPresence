@@ -1,13 +1,17 @@
 const fs = require("fs");
+const EmbedSender = require("../classes/EmbedSender");
 
 exports.run = async (client, message, args) => {
   let serverID = parseInt(args[0]);
   if (!serverID) {
-    return message.channel.send("Please specify a server ID.");
+    return EmbedSender.sendSimpleEmbed(
+      message.channel,
+      "Unable to perform this action.",
+      "Please provide a server ID to be added to the whitelist",
+      "info"
+    );
   }
-
   const authorizedwhitelist = require("../config/whitelist");
-
   if (authorizedwhitelist.ids.includes(serverID)) {
     return message.channel.send(`${serverID} is already registered in the whitelist.`);
   }

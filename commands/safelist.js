@@ -1,5 +1,4 @@
 exports.run = async (client, message) => {
-  /** @type Array */
   let safelist = require("../config/safelist");
 
   await message.channel.send({
@@ -10,7 +9,7 @@ exports.run = async (client, message) => {
       fields: [
         {
           name: "Players",
-          value: ` > ${safelist.join("\n > ")}`
+          value: ` > ${safelist.players.join("\n > ")}`
         }
       ]
     }

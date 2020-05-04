@@ -2,7 +2,7 @@ const checkCoordinates = require("../lib/checkPlayersCoordinates");
 
 module.exports = (timestamp, data) => {
   /** @type {Array} */
-  const safeList = require("../config/safelist.json");
+  const safeList = require("../config/safelist.json").players;
 
   let newData = {
     "timestamp": timestamp,

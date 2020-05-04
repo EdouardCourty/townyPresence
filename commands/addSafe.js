@@ -1,16 +1,21 @@
 const fs = require("fs");
+const EmbedSender = require("../classes/EmbedSender");
 
 exports.run = async (client, message, args) => {
   let playerName = args[0];
   if (!playerName) {
-    return message.channel.send("Please specify a username.");
+    return EmbedSender.sendSimpleEmbed(
+      message.channel,
+      "Unable to perform this action.",
+      "Please provide a player name to be added to the safelist",
+      "info"
+    );
   }
-  /** @type Array */
-  let safelist = require("../config/safelist");
-  if (safelist.includes(playerName)) {
+  const safelist = require("../config/safelist");
+  if (safelist.players.includes(playerName)) {
     return message.channel.send(`${playerName} is already registered in the safelist.`);
   }
-  safelist.push(playerName);
+  safelist.players.push(playerName);
   fs.writeFileSync("./config/safelist.json", JSON.stringify(safelist, null, 2));
 
   await message.channel.send(`Added ${playerName} to the safelist.`);

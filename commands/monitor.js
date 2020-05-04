@@ -76,7 +76,7 @@ function sendMessage(timestamp, url, message, date, edit) {
     /** @type Array<String> */
     const checkList = require("../config/checklist");
     /** @type Array<String> */
-    const safeList = require("../config/safelist");
+    const safeList = require("../config/safelist").players;
     const zoneCount = MonitoredZone.getAllZonesFromJSON().length;
     const messageContent = {
         embed: EmbedSender.getEmbed(date, checkList, safeList, onlineStatus, zoneCount, proximityData)
