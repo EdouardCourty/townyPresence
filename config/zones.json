@@ -2,15 +2,15 @@
   {
     "name": "New_Cayenne",
     "leftX": -10032,
-    "rightX": null,
-    "topZ": null,
-    "bottomZ": null
+    "rightX": -9890,
+    "topZ": -1183,
+    "bottomZ": -1025
   },
   {
     "name": "Cayenne",
-    "left-x": -9886,
-    "right-x": -9711,
-    "top-z": -1054,
-    "bottom-z": -818
+    "leftX": -9890,
+    "rightX": -9711,
+    "topZ": -1054,
+    "bottomZ": -818
   }
 ]

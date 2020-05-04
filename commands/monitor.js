@@ -3,6 +3,7 @@ const eventBus = require("../lib/eventBus");
 const checkProximityHandler = require("../handlers/checkProximityHandler");
 const checkOnlineStatusHandler = require("../handlers/checkOnlineStatusHandler");
 const getPlayerList = require("../lib/getPlayerList");
+const MonitoredZone = require("../classes/MonitoredZone");
 
 exports.run = (client, message) => {
   let isFirstLaunch = true;
@@ -76,6 +77,7 @@ function sendMessage(timestamp, url, message, date, edit) {
       const checkList = require("../config/checklist");
       /** @type Array */
       const safeList = require("../config/safelist");
+      const zoneCount = MonitoredZone.getAllZonesFromJSON().length;
       const messageContent = {
         embed: {
           title: "EarthMC Monitor",
@@ -99,9 +101,8 @@ function sendMessage(timestamp, url, message, date, edit) {
               name: "Checking online status from the checklist.json",
               value: onlineStatus
             }, {
-              name: "Monitoring New_Cayenne claims",
-              value: proximity,
-              inline: true
+              name: `Monitoring ${zoneCount} zones`,
+              value: proximity
             }
           ]
         }

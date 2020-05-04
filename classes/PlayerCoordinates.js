@@ -6,7 +6,7 @@ class PlayerCoordinates {
 
     constructor(data) {
         this.x = data.x;
-        this.y = data.y;
+        this.z = data.z;
         this.playerName = data.name;
     }
 }
