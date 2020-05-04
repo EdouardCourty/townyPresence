@@ -22,7 +22,10 @@ class MonitoredZone {
      * @return {string|boolean} zoneName
      */
     static isPlayerInZone(playerCoordinates, zone) {
-        return playerCoordinates.x > zone.leftX && playerCoordinates.x < zone.rightX && playerCoordinates.z > zone.topZ && playerCoordinates.z < zone.bottomZ
+        return playerCoordinates.x > zone.leftX
+        && playerCoordinates.x < zone.rightX
+        && playerCoordinates.z > zone.topZ
+        && playerCoordinates.z < zone.bottomZ
             ? zone.name
             : false;
     }
