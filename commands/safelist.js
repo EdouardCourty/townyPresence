@@ -17,7 +17,7 @@ exports.run = async (client, message) => {
 };
 
 exports.info = {
-  name       : "SafeList",
+  name: "SafeList",
   description: "List all the players that are in the safelist.",
   commandExample: "!safelist"
 };

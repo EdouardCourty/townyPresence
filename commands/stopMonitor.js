@@ -1,15 +1,13 @@
-const eventBus = require("../lib/eventBus");
+const Broadcaster = require("../classes/Broadcaster");
 
 exports.run = (client, message) => {
-  if (client.isMonitoring) {
-    eventBus.emit("stopMonitoring");
-  } else {
-    message.channel.send("There is no active monitoring session.");
-  }
+  const serverId = parseInt(message.guild.id);
+
+  Broadcaster.stopMonitor(serverId, message.channel);
 };
 
 exports.info = {
-  name       : "StopMonitor",
-  description: "Stops the monitoring.",
+  name: "StopMonitor",
+  description: "Stops the monitor for the server the command is executed in.",
   commandExample: "!stopmonitor"
 };

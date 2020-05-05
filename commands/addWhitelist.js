@@ -22,7 +22,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.info = {
-  name       : "AddWhitelist",
+  name: "AddWhitelist",
   description: "Adds a player to the checklist.",
   commandExample: "!addwhitelist 12064654564678"
 };

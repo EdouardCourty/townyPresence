@@ -19,7 +19,7 @@ exports.run = async (client, message) => {
 };
 
 exports.info = {
-  name       : "ZoneList",
+  name: "ZoneList",
   description: "List all the zones registered on the zones.json file.",
   commandExample: "!zonelist"
 };

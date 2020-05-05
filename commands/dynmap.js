@@ -10,7 +10,7 @@ exports.run = async (client, message) => {
 }
 
 exports.info = {
-    name       : "DynMap",
+    name: "DynMap",
     description: "Returns a link to the EMC DynMap.",
     commandExample: "!dynmap"
 };

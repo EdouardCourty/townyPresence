@@ -13,7 +13,7 @@ exports.run = (client, message, args) => {
 };
 
 exports.info = {
-  name       : "Delete",
+  name: "Delete",
   description: "Deletes a specified amount of messages.",
   commandExample: "!delete 10"
 };

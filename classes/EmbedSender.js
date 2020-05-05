@@ -1,10 +1,8 @@
-const getEmbed = require("../lib/getEmbed");
-
 class EmbedSender {
-  static COLOR_SUCCESS = null;
+  static COLOR_SUCCESS = 65399;
   static COLOR_INFO = 15410827;
-  static COLOR_WARNING = null;
-  static COLOR_ERROR = null;
+  static COLOR_WARNING = 16771584;
+  static COLOR_ERROR = 15735326;
 
   static async getEmbed(date, checkList, safeList, onlineStatus, zoneCount, proximityData) {
     return {
@@ -36,10 +34,6 @@ class EmbedSender {
     };
   }
 
-  static async replaceMessage(message, content) {
-    await message.edit(content);
-  }
-
   static getNotAuthorizedEmbed() {
     return {
       color: this.COLOR_INFO,
@@ -49,13 +43,12 @@ class EmbedSender {
   }
 
   /**
-   * @param {Object} channel
    * @param {String} title
    * @param {String} description
    * @param {String} level
-   * @return {Promise<void>}
+   * @return {{embed: {color: number, description: String, title: String}}}
    */
-  static async sendSimpleEmbed(channel, title, description, level) {
+  static getSimpleEmbed(title, description, level) {
     let color;
     switch (level) {
       case "success":
@@ -72,13 +65,34 @@ class EmbedSender {
         break;
     }
 
-    await channel.send({
+    return {
       embed: {
         color: color,
         title: title,
-        description: description
+        description: description,
+        footer: {
+          text: `Random number - ${(Math.random()*10).toFixed(4)}`
+        }
       }
-    })
+    };
+  }
+
+  /**
+   * @param {Object} channel
+   * @param {String} title
+   * @param {String} description
+   * @param {String} level
+   * @return {Promise<void>}
+   */
+  static sendSimpleEmbed(channel, title, description, level) {
+    return channel.send(this.getSimpleEmbed(title, description, level))
+  }
+
+  static sendNoMonitorRunning(channel) {
+    return this.sendSimpleEmbed(channel,
+      "Unable to execute this command",
+      "No monitor is actually running.",
+      "error")
   }
 }
 

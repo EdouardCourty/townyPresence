@@ -1,5 +1,4 @@
 exports.run = async (client, message) => {
-  /** @type Array */
   let checklist = require("../config/checklist");
 
   await message.channel.send({
@@ -18,7 +17,7 @@ exports.run = async (client, message) => {
 };
 
 exports.info = {
-  name       : "Checklist",
+  name: "Checklist",
   description: "List all the players that are in the checklist.",
   commandExample: "!checklist"
 };

@@ -19,7 +19,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.info = {
-  name       : "Ping",
+  name: "Ping",
   description: "Returns the bot and API latency.",
   commandExample: "!ping"
 };

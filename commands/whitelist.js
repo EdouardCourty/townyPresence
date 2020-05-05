@@ -19,7 +19,7 @@ exports.run = async (client, message) => {
 }
 
 exports.info = {
-  name       : "Whitelist",
+  name: "Whitelist",
   description: "List all the whitelisted server IDs.",
   commandExample: "!whitelist"
 };

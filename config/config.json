@@ -1,3 +1,4 @@
 {
-  "REQUEST_URL": "https://earthmc.net/map/up/world/earth/"
+  "REQUEST_URL": "https://earthmc.net/map/up/world/earth/",
+  "REQUEST_DELAY": 6000
 }
