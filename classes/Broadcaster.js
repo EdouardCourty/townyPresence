@@ -112,6 +112,7 @@ class Broadcaster {
       const monitor = this.monitors.filter(monitor => monitor.serverId === serverId)[0];
       if (monitor) {
         monitor.message.delete().catch()
+        monitor.setBaseMessage(await channel.send("Awaiting for data to recreate the embed..."));
       } else {
         await EmbedSender.sendNoMonitorRunning(channel)
       }
