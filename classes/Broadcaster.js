@@ -15,6 +15,7 @@ class Broadcaster {
     this.startQueryLoop();
     this.startQueryListener();
     this.startOtherListeners();
+    this.startListsListeners();
   }
 
   startQueryLoop() {
@@ -119,6 +120,78 @@ class Broadcaster {
     })
   }
 
+  startListsListeners() {
+    eventBus.on("getSafelist", async (serverId, channel) => {
+      Monitor.getSafelist(serverId).then(list => {
+          EmbedSender.sendSimpleEmbed(channel, "Safelist dump", list.usernames.join("\n"), "success")
+        }).catch(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "Checklist dump",
+          "No configuration found, start the monitor once to create it automatically",
+          "warning"
+        )
+      })
+    })
+
+    eventBus.on("getChecklist", async (serverId, channel) => {
+      Monitor.getChecklist(serverId).then(list => {
+        EmbedSender.sendSimpleEmbed(channel, "Checklist dump", list.usernames.join("\n"), "success")
+      }).catch(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "Checklist dump",
+          "No configuration found, start the monitor once to create it automatically",
+          "warning"
+        )
+      })
+    })
+
+    eventBus.on("addUserToSafelist", async (serverId, channel, username) => {
+      Monitor.addUserToSafelist(serverId, username).then(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "Assignation complete.",
+          `Username ${username} added to the safelist`,
+          "success"
+        )
+      })
+    })
+
+    eventBus.on("addUserToChecklist", async (serverId, channel, username) => {
+      Monitor.addUserToChecklist(serverId, username).then(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "Assignation complete.",
+          `Username ${username} added to the checklist`,
+          "success"
+        )
+      })
+    })
+
+    eventBus.on("removeUserFromSafelist", async (serverId, channel, username) => {
+      Monitor.removeUserFromSafelist(serverId, username).then(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "Remove complete.",
+          `Username ${username} removed from the safelist`,
+          "success"
+        )
+      })
+    })
+
+    eventBus.on("removeUserFromChecklist", async (serverId, channel, username) => {
+      Monitor.removeUserFromChecklist(serverId, username).then(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "Remove complete.",
+          `Username ${username} removed from the checklist`,
+          "success"
+        )
+      })
+    })
+  }
+
   /**
    * @param {Number} serverId
    * @param {Object} channel
@@ -149,6 +222,58 @@ class Broadcaster {
    */
   static getMonitor(serverId, channel) {
     eventBus.emit("bringDownMonitorEmbed", serverId, channel)
+  }
+
+  /**
+   * @param {Number} serverId
+   * @param {Object} channel
+   */
+  static getChecklist(serverId, channel) {
+    eventBus.emit("getChecklist", serverId, channel)
+  }
+
+  /**
+   * @param {Number} serverId
+   * @param {Object} channel
+   */
+  static getSafelist(serverId, channel) {
+    eventBus.emit("getSafelist", serverId, channel)
+  }
+
+  /**
+   * @param {Number} serverId
+   * @param {Object} channel
+   * @param {String} username
+   */
+  static addUserToSafelist(serverId, channel, username) {
+    eventBus.emit("addUserToSafelist", serverId, channel, username)
+  }
+
+  /**
+   * @param {Number} serverId
+   * @param {Object} channel
+   * @param {String} username
+   */
+  static addUserToChecklist(serverId, channel, username) {
+    eventBus.emit("addUserToChecklist", serverId, channel, username)
+  }
+
+  /**
+   * @param {Number} serverId
+   * @param {Object} channel
+   * @param {String} username
+   */
+  static removeUserFromSafelist(serverId, channel, username) {
+    eventBus.emit("removeUserFromSafelist", serverId, channel, username)
+  }
+
+  /**
+   * @param {Number} serverId
+   * @param {Object} channel
+   * @param {String} username
+   */
+  static removeUserFromChecklist(serverId, channel, username) {
+    eventBus.emit("removeUserFromChecklist", serverId, channel, username)
   }
 }
 

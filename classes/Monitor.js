@@ -1,10 +1,13 @@
 const eventBus = require("../lib/eventBus");
 const EmbedSender = require("./EmbedSender");
-const fs = require("fs");
+const DataProcessor = require("./DataProcessor");
+const Checklist = require("../models/Checklist");
+const Safelist = require("../models/Safelist");
+
+const NoConfigFoundException = require("./exceptions/NoConfigFoundException");
 
 class Monitor {
-  serverId = Number();
-  configFolder = String();
+  serverId;
   message;
 
   /**
@@ -12,11 +15,9 @@ class Monitor {
    */
   constructor(serverId) {
     this.serverId = serverId;
-    this.configFolder = `./config/${serverId}/`;
 
-    this.createConfigurationFolderIfNotExists(serverId);
     this.startListener();
-    this.registerConfigurtion();
+    this.createConfigIfNotExists();
   }
 
   /**
@@ -29,9 +30,15 @@ class Monitor {
   startListener() {
     eventBus.on("dataFromAPI", (serverId, data, success) => {
       if (serverId === this.serverId) {
-        const edit = success
-          ? EmbedSender.getSimpleEmbed("Data received", data, "success")
-          : EmbedSender.getSimpleEmbed("No data received from Dynmap", data.message, "warning")
+        let edit;
+        if (success) {
+          const processor = new DataProcessor(this, data);
+          const processedData = processor.getProcessedData();
+
+          edit = EmbedSender.getSimpleEmbed("Data received from Dynmap", data, "success")
+        } else {
+          edit = EmbedSender.getSimpleEmbed("No data received from Dynmap", data.message, "warning")
+        }
         this.message.edit(edit).catch(() => {
           this.message.channel.send(edit).then(message => {
             this.setBaseMessage(message)
@@ -41,34 +48,95 @@ class Monitor {
     })
   }
 
-  registerConfigurtion() {
-    this.createFileIfNotExists("checklist.json", {
-      players: []
+  createConfigIfNotExists() {
+    Checklist.findOne({serverId: this.serverId}).then(doc => {
+      if (!doc) {
+        const baseDoc = new Checklist({
+          serverId: this.serverId,
+          servers: []
+        })
+        baseDoc.save()
+      }
     })
-    this.createFileIfNotExists("safelist.json", {
-      players: []
+    Safelist.findOne({serverId: this.serverId}).then(doc => {
+      if (!doc) {
+        const baseDoc = new Safelist({
+          serverId: this.serverId,
+          servers: []
+        })
+        baseDoc.save()
+      }
     })
   }
-
-  /**
-   * @param {String} fileName
-   * @param {Object} [content={}]
-   */
-  createFileIfNotExists(fileName, content = {}) {
-    const path = `${this.configFolder}${fileName}`;
-    if (!fs.existsSync(path)) {
-      fs.writeFileSync(path, JSON.stringify(content, null, 2))
-    }
-  }
-
 
   /**
    * @param {Number} serverId
+   * @return {Promise<Object>}
    */
-  createConfigurationFolderIfNotExists(serverId) {
-    if (!fs.existsSync(this.configFolder)) {
-      fs.mkdirSync(this.configFolder);
+  static async getChecklist(serverId) {
+    let doc = Checklist.findOne({serverId: serverId});
+    if (doc) {
+      return doc;
+    } else {
+      throw new NoConfigFoundException()
     }
+  }
+
+  /**
+   * @param {Number} serverId
+   * @return {Promise<Object>}
+   */
+  static async getSafelist(serverId) {
+    let doc = Safelist.findOne({serverId: serverId});
+    if (doc) {
+      return doc;
+    } else {
+      throw new NoConfigFoundException()
+    }
+  }
+
+  /**
+   * @param {Number} serverId
+   * @param {String} username
+   * @return {Promise<Object>}
+   */
+  static async addUserToSafelist(serverId, username) {
+    let updatedDoc = await this.getSafelist(serverId);
+    updatedDoc.usernames.push(username);
+    return Safelist.findOneAndUpdate({serverId: serverId}, updatedDoc)
+  }
+
+  /**
+   * @param {Number} serverId
+   * @param {String} username
+   * @return {Promise<Object>}
+   */
+  static async addUserToChecklist(serverId, username) {
+    let updatedDoc = await this.getChecklist(serverId);
+    updatedDoc.usernames.push(username);
+    return Checklist.findOneAndUpdate({serverId: serverId}, updatedDoc)
+  }
+
+  /**
+   * @param {Number} serverId
+   * @param {String} username
+   * @return {Promise<Object>}
+   */
+  static async removeUserFromSafelist(serverId, username) {
+    let updatedDoc = await this.getSafelist(serverId);
+    updatedDoc.usernames.splice(updatedDoc.usernames.indexOf(username), 1);
+    return Safelist.findOneAndUpdate({serverId: serverId}, updatedDoc)
+  }
+
+  /**
+   * @param {Number} serverId
+   * @param {String} username
+   * @return {Promise<Object>}
+   */
+  static async removeUserFromChecklist(serverId, username) {
+    let updatedDoc = await this.getChecklist(serverId);
+    updatedDoc.usernames.splice(updatedDoc.usernames.indexOf(username), 1);
+    return Checklist.findOneAndUpdate({serverId: serverId}, updatedDoc)
   }
 }
 

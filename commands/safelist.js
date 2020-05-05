@@ -1,19 +1,28 @@
-exports.run = async (client, message) => {
-  let safelist = require("../config/safelist");
+const Broadcaster = require("../classes/Broadcaster");
+const EmbedSender = require("../classes/EmbedSender");
 
-  await message.channel.send({
-    embed: {
-      title: "safelist.json",
-      description: "All the users that are not monitored.",
-      color: 2613284,
-      fields: [
-        {
-          name: "Players",
-          value: ` > ${safelist.players.join("\n > ")}`
-        }
-      ]
-    }
-  });
+exports.run = async (client, message, args) => {
+  const command = args[0];
+  const username = args[1];
+  const serverId = parseInt(message.guild.id);
+  switch(command) {
+    case "show":
+      Broadcaster.getSafelist(serverId, message.channel);
+      break;
+    case "add":
+      Broadcaster.addUserToSafelist(serverId, message.channel, username);
+      break;
+    case "remove":
+      Broadcaster.removeUserFromSafelist(serverId, message.channel, username);
+      break;
+    default:
+      await EmbedSender.sendSimpleEmbed(
+        message.channel,
+        "An error occured.",
+        "The provided argument is not bound to an action. Please retry.",
+        "warning"
+      )
+  }
 };
 
 exports.info = {
