@@ -52,9 +52,9 @@ class Monitor {
 
   /**
    * @param {String} fileName
-   * @param {String} [content=""]
+   * @param {Object} [content={}]
    */
-  createFileIfNotExists(fileName, content = "") {
+  createFileIfNotExists(fileName, content = {}) {
     const path = `${this.configFolder}${fileName}`;
     if (!fs.existsSync(path)) {
       fs.writeFileSync(path, JSON.stringify(content, null, 2))
