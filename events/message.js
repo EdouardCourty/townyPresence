@@ -5,13 +5,13 @@ module.exports = async (client, message) => {
   if (message.author.bot) return;
   const whitelistedServerIds = (await Whitelist.findOne()).servers
   // Listening condition
-  message.isCommand  = message.content.startsWith(process.env.COMMAND_PREFIX) ? 1 : 0;
+  message.isCommand = message.content.startsWith(process.env.COMMAND_PREFIX);
   let userIsAdmin = message.member.hasPermission("ADMINISTRATOR");
   if (!userIsAdmin) return;
 
   let isServerWhitelisted = false;
   const serverId = parseInt(message.guild.id);
-  if (whitelistedServerIds.includes(serverId)) isServerWhitelisted = true;
+  isServerWhitelisted = whitelistedServerIds.includes(serverId)
 
   if (!message.isCommand) return;
 
