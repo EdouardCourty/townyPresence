@@ -3,6 +3,8 @@ const EmbedSender = require("./EmbedSender");
 const DataProcessor = require("./DataProcessor");
 const Checklist = require("../models/Checklist");
 const Safelist = require("../models/Safelist");
+const UserAlreadyRegisteredException = require("./exceptions/UserAlreadyRegisteredException");
+const UserNotRegisteredException = require("./exceptions/UserNotRegisteredException");
 
 const NoConfigFoundException = require("./exceptions/NoConfigFoundException");
 
@@ -53,7 +55,7 @@ class Monitor {
       if (!doc) {
         const baseDoc = new Checklist({
           serverId: this.serverId,
-          servers: []
+          usernames: []
         })
         baseDoc.save()
       }
@@ -62,7 +64,7 @@ class Monitor {
       if (!doc) {
         const baseDoc = new Safelist({
           serverId: this.serverId,
-          servers: []
+          usernames: []
         })
         baseDoc.save()
       }
@@ -102,6 +104,9 @@ class Monitor {
    */
   static async addUserToSafelist(serverId, username) {
     let updatedDoc = await this.getSafelist(serverId);
+    if (updatedDoc.usernames.includes(username)) {
+      throw new UserAlreadyRegisteredException()
+    }
     updatedDoc.usernames.push(username);
     return Safelist.findOneAndUpdate({serverId: serverId}, updatedDoc)
   }
@@ -113,6 +118,9 @@ class Monitor {
    */
   static async addUserToChecklist(serverId, username) {
     let updatedDoc = await this.getChecklist(serverId);
+    if (updatedDoc.usernames.includes(username)) {
+      throw new UserAlreadyRegisteredException()
+    }
     updatedDoc.usernames.push(username);
     return Checklist.findOneAndUpdate({serverId: serverId}, updatedDoc)
   }
@@ -124,6 +132,9 @@ class Monitor {
    */
   static async removeUserFromSafelist(serverId, username) {
     let updatedDoc = await this.getSafelist(serverId);
+    if (!updatedDoc.usernames.includes(username)) {
+      throw new UserNotRegisteredException()
+    }
     updatedDoc.usernames.splice(updatedDoc.usernames.indexOf(username), 1);
     return Safelist.findOneAndUpdate({serverId: serverId}, updatedDoc)
   }
@@ -135,6 +146,9 @@ class Monitor {
    */
   static async removeUserFromChecklist(serverId, username) {
     let updatedDoc = await this.getChecklist(serverId);
+    if (!updatedDoc.usernames.includes(username)) {
+      throw new UserNotRegisteredException()
+    }
     updatedDoc.usernames.splice(updatedDoc.usernames.indexOf(username), 1);
     return Checklist.findOneAndUpdate({serverId: serverId}, updatedDoc)
   }

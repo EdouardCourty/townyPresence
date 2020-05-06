@@ -3,3 +3,5 @@ class NoConfigFoundException extends Error {
     super();
   }
 }
+
+module.exports = NoConfigFoundException

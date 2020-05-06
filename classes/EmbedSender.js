@@ -4,36 +4,6 @@ class EmbedSender {
   static COLOR_WARNING = 16771584;
   static COLOR_ERROR = 15735326;
 
-  static async getEmbed(date, checkList, safeList, onlineStatus, zoneCount, proximityData) {
-    return {
-      title: "EarthMC Monitor",
-      description: "Ultimate EarthMC tracking system",
-      footer: {
-        "text": `Last update: ${date}\nRandom number: ${(Math.random()*10).toFixed(4)}`
-      },
-      color: 9617173,
-      fields: [
-        {
-          name: "checklist.json",
-          value: ` > ${checkList.join("\n > ")}`,
-          inline: true
-        },
-        {
-          name: "safelist.json",
-          value: ` > ${safeList.join("\n > ")}`,
-          inline: true
-        },
-        {
-          name: "Checking online status from the checklist.json",
-          value: onlineStatus
-        }, {
-          name: `Monitoring ${zoneCount} zones`,
-          value: proximityData
-        }
-      ]
-    };
-  }
-
   static getNotAuthorizedEmbed() {
     return {
       color: this.COLOR_INFO,
@@ -82,12 +52,16 @@ class EmbedSender {
    * @param {String} title
    * @param {String} description
    * @param {String} level
-   * @return {Promise<void>}
+   * @return {Promise<Object>}
    */
   static sendSimpleEmbed(channel, title, description, level) {
     return channel.send(this.getSimpleEmbed(title, description, level))
   }
 
+  /**
+   * @param {Object} channel
+   * @return {Promise<Object>}
+   */
   static sendNoMonitorRunning(channel) {
     return this.sendSimpleEmbed(channel,
       "Unable to execute this command",

@@ -155,6 +155,13 @@ class Broadcaster {
           `Username ${username} added to the safelist`,
           "success"
         )
+      }).catch(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "An error occured.",
+          `Username ${username} is already safelisted`,
+          "warning"
+        )
       })
     })
 
@@ -165,6 +172,13 @@ class Broadcaster {
           "Assignation complete.",
           `Username ${username} added to the checklist`,
           "success"
+        )
+      }).catch(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "An error occured.",
+          `Username ${username} is already checklisted`,
+          "warning"
         )
       })
     })
@@ -177,6 +191,13 @@ class Broadcaster {
           `Username ${username} removed from the safelist`,
           "success"
         )
+      }).catch(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "An error occured.",
+          `Username ${username} is not safelisted`,
+          "warning"
+        )
       })
     })
 
@@ -187,6 +208,13 @@ class Broadcaster {
           "Remove complete.",
           `Username ${username} removed from the checklist`,
           "success"
+        )
+      }).catch(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "An error occured.",
+          `Username ${username} is not checklisted`,
+          "warning"
         )
       })
     })

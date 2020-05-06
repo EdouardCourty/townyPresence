@@ -3,17 +3,16 @@ const EmbedSender = require("../classes/EmbedSender");
 
 exports.run = async (client, message, args) => {
   const command = args[0];
-  const username = args[1];
   const serverId = parseInt(message.guild.id);
   switch (command) {
-    case "show":
-      Broadcaster.getSafelist(serverId, message.channel);
+    case "status":
+      Broadcaster.getStatus(serverId, message.channel)
       break;
-    case "add":
-      Broadcaster.addUserToSafelist(serverId, message.channel, username);
+    case "start":
+      Broadcaster.registerMonitor(serverId, message.channel);
       break;
-    case "remove":
-      Broadcaster.removeUserFromSafelist(serverId, message.channel, username);
+    case "stop":
+      Broadcaster.stopMonitor(serverId, message.channel);
       break;
     default:
       await EmbedSender.sendSimpleEmbed(
@@ -26,7 +25,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.info = {
-  name: "SafeList",
-  description: "List all the players that are in the safelist.",
-  commandExample: "!safelist"
+  name: "Monitor",
+  description: "Has three subcommands: `status`, `start`, `stop`",
+  commandExample: "!monitor <status|start|stop>"
 };

@@ -13,7 +13,7 @@ class DataProcessor {
     this.processData()
   }
 
-  async processData() {
+  processData() {
 
   }
 

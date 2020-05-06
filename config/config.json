@@ -1,5 +1,6 @@
 {
   "REQUEST_URL": "https://earthmc.net/map/up/world/earth/",
   "REQUEST_DELAY": 6000,
-  "MONGODB_CONNECTION_STRING": "mongodb://townyAdmin:townyPassword@localhost:27017/townyConfig?authSource=admin"
+  "MONGODB_CONNECTION_STRING": "mongodb://townyAdmin:townyPassword@localhost:27017/townyConfig?authSource=admin",
+  "MASTER_USER_ID": 486262563948986401
 }

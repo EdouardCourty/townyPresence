@@ -5,7 +5,7 @@ exports.run = async (client, message, args) => {
   const command = args[0];
   const username = args[1];
   const serverId = parseInt(message.guild.id);
-  switch(command) {
+  switch (command) {
     case "show":
       Broadcaster.getChecklist(serverId, message.channel);
       break;

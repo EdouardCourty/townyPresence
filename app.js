@@ -1,16 +1,17 @@
 const Discord = require("discord.js");
-const utils   = require("./lib/utils.js");
-const Broadcaster = require("./classes/Broadcaster");
 const mongoose = require("mongoose");
-const {MONGODB_CONNECTION_STRING} = require("./config/config.json");
 
+const ClientManager = require("./classes/ClientManager");
+
+const {MONGODB_CONNECTION_STRING} = require("./config/config.json");
 require("dotenv").config();
 
 let client = new Discord.Client();
 
-utils.login(client);
-utils.loadCommands(client);
-utils.loadEvents(client);
+const clientManager = new ClientManager(client);
+clientManager.login();
+clientManager.loadEvents();
+clientManager.loadCommands();
 
 mongoose.connect(MONGODB_CONNECTION_STRING, {
   useNewUrlParser: true,
@@ -21,5 +22,3 @@ mongoose.connect(MONGODB_CONNECTION_STRING, {
   }).catch((e) => {
     console.log(" > Connection to MongoDB failed.\n"+e)
   })
-
-const broadcaster = new Broadcaster();
