@@ -5,7 +5,7 @@ module.exports = async (client, message) => {
   if (message.author.bot) return;
   const whitelistedServerIds = (await Whitelist.findOne()).servers
   message.isCommand = message.content.startsWith(process.env.COMMAND_PREFIX);
-  let userIsAdmin = message.member.hasPermission("ADMINISTRATOR");
+  let userIsAdmin = message.member.hasPermission("MANAGE_MESSAGES");
   if (!userIsAdmin) return;
 
   const serverId = parseInt(message.guild.id);

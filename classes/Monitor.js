@@ -30,23 +30,30 @@ class Monitor {
   }
 
   startListener() {
-    eventBus.on("dataFromAPI", (serverId, data, success) => {
+    eventBus.on("dataFromAPI", async (serverId, data, success) => {
       if (serverId === this.serverId) {
         let edit;
         if (success) {
-          const processor = new DataProcessor(this, data);
-          const processedData = processor.getProcessedData();
-
-          edit = EmbedSender.getSimpleEmbed("Data received from Dynmap", data, "success")
+          const checklist = await Checklist.findOne({serverId: this.serverId});
+          const safelist = await Safelist.findOne({serverId: this.serverId});
+          const processor = new DataProcessor(this, data, checklist.usernames, safelist.usernames);
+          edit = {embed: await processor.process()};
         } else {
           edit = EmbedSender.getSimpleEmbed("No data received from Dynmap", data.message, "warning")
         }
-        this.message.edit(edit).catch(() => {
-          this.message.channel.send(edit).then(message => {
-            this.setBaseMessage(message)
-          })
-        })
+        this.handleEditOrRecreate(edit);
       }
+    })
+  }
+
+  /**
+   * @param {{embed:{Object}}} edit
+   */
+  handleEditOrRecreate(edit) {
+    this.message.edit(edit).catch(() => {
+      this.message.channel.send(edit).then(message => {
+        this.setBaseMessage(message)
+      })
     })
   }
 

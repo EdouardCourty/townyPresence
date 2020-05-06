@@ -33,7 +33,7 @@ class Broadcaster {
   startQueryListener() {
     eventBus.on("requestCompleted", (data) => {
       this.monitors.forEach(monitor => {
-        eventBus.emit("dataFromAPI", monitor.serverId, "Got data from the API", true)
+        eventBus.emit("dataFromAPI", monitor.serverId, data, true)
       })
     })
 
