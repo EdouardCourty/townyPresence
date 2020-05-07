@@ -3,6 +3,7 @@ const EmbedSender = require("./EmbedSender");
 const DataProcessor = require("./DataProcessor");
 const Checklist = require("../models/Checklist");
 const Safelist = require("../models/Safelist");
+const Zone = require("../models/Zone");
 const UserAlreadyRegisteredException = require("./exceptions/UserAlreadyRegisteredException");
 const UserNotRegisteredException = require("./exceptions/UserNotRegisteredException");
 
@@ -72,6 +73,15 @@ class Monitor {
         const baseDoc = new Safelist({
           serverId: this.serverId,
           usernames: []
+        })
+        baseDoc.save()
+      }
+    })
+    Zone.findOne({serverId: this.serverId}).then(doc => {
+      if (!doc) {
+        const baseDoc = new Zone({
+          serverId: this.serverId,
+          zones: []
         })
         baseDoc.save()
       }

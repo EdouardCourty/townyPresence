@@ -21,6 +21,7 @@ class DataProcessor {
   }
 
   async process() {
+
     return {
       title: "That's a title",
       description: "That's a description",
@@ -39,6 +40,10 @@ class DataProcessor {
         text: `Random number - ${(Math.random()*10).toFixed(4)}`
       }
     }
+  }
+
+  getZones() {
+
   }
 }
 

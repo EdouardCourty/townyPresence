@@ -1,4 +1,5 @@
 const Monitor = require("./Monitor");
+const ZoneManager = require("./ZoneManager");
 const eventBus = require("../lib/eventBus");
 const EmbedSender = require("./EmbedSender");
 const axios = require("axios");
@@ -218,6 +219,54 @@ class Broadcaster {
         )
       })
     })
+
+    eventBus.on("getZones", async (serverId, channel) => {
+      ZoneManager.getDocument(serverId).then(list => {
+        EmbedSender.sendSimpleEmbed(channel, "Zonelist dump", list.zones.map(z => z.name).join("\n"), "success")
+      }).catch(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "Zonelist dump",
+          "No configuration found, start the monitor once to create it automatically",
+          "warning"
+        )
+      })
+    })
+
+    eventBus.on("addZone", async (serverId, channel, zoneData) => {
+      ZoneManager.addZone(serverId, zoneData).then(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "Zone successfully created",
+          `Zone ${zoneData.name} added to the zonelist`,
+          "success")
+      }).catch(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "Zonelist dump",
+          "No configuration found, start the monitor once to create it automatically",
+          "warning"
+        )
+      })
+    })
+
+    eventBus.on("removeZone", async (serverId, channel, zoneName) => {
+      ZoneManager.removeZone(serverId, zoneName).then(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "Remove complete.",
+          `Zone ${zoneName} removed from the zonelist`,
+          "success"
+        )
+      }).catch(() => {
+        EmbedSender.sendSimpleEmbed(
+          channel,
+          "An error occured.",
+          `Zone ${zoneName} is not in the zone list`,
+          "warning"
+        )
+      })
+    })
   }
 
   /**
@@ -302,6 +351,32 @@ class Broadcaster {
    */
   static removeUserFromChecklist(serverId, channel, username) {
     eventBus.emit("removeUserFromChecklist", serverId, channel, username)
+  }
+
+  /**
+   * @param {Number} serverId
+   * @param {Object} channel
+   */
+  static getZones(serverId, channel) {
+    eventBus.emit("getZones", serverId, channel)
+  }
+
+  /**
+   * @param {Number} serverId
+   * @param {Object} channel
+   * @param {Object} zoneData
+   */
+  static addZone(serverId, channel, zoneData) {
+    eventBus.emit("addZone", serverId, channel, zoneData)
+  }
+
+  /**
+   * @param {Number} serverId
+   * @param {Object} channel
+   * @param {Object} zoneName
+   */
+  static removeZone(serverId, channel, zoneName) {
+    eventBus.emit("removeZone", serverId, channel, zoneName)
   }
 }
 

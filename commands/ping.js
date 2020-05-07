@@ -1,8 +1,11 @@
-exports.run = async (client, message, args) => {
+const EmbedSender = require("../classes/EmbedSender");
+
+exports.run = async (client, message) => {
   let ping = Date.now() - message.createdTimestamp;
   await message.channel.send({
     embed: {
-      color: 12399521,
+      title: "Bot latency information",
+      color: EmbedSender.COLOR_INFO,
       fields: [
         {
           name: "Bot R/S latency",
