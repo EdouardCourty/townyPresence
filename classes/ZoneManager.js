@@ -14,8 +14,8 @@ class ZoneManager {
   }
 
   static async addZone(serverId, zoneData) {
-    const updatedDoc = await Zone.findOne({serverId: serverId});
-    if (updatedDoc.zones.includes(serverId)) {
+    let updatedDoc = await this.getDocument(serverId);
+    if (updatedDoc.zones.map(z => z.name).includes(zoneData.name)) {
       throw new ZoneAlreadyExistsException()
     }
     updatedDoc.zones.push(zoneData);
@@ -24,11 +24,12 @@ class ZoneManager {
 
   static async removeZone(serverId, zoneName) {
     let updatedDoc = await this.getDocument(serverId);
+    if (!updatedDoc.zones.map(z => z.name).includes(zoneName)) {
+      throw new ZoneNotRegisteredException()
+    }
     updatedDoc.zones = updatedDoc.zones.filter(zone => zone.name !== zoneName);
     return Zone.findOneAndUpdate({serverId: serverId}, updatedDoc);
   }
-
-  // TODO: IMLEMENT THE SAME SYSTEM ND ASS MANAGERS FOR SAFE AND CHECK LIST
 }
 
 module.exports = ZoneManager;

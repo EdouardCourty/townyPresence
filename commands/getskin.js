@@ -22,7 +22,7 @@ exports.run = async (client, message, args) => {
 };
 
 exports.info = {
-  name: "GetSKin",
+  name: "GetSkin",
   description: "Returns ths skin of a player.",
   commandExample: "!getskin PHP_Sensei"
 };

@@ -1,4 +1,5 @@
 class NoConfigFoundException extends Error {
+  e = "noConfig"
   constructor() {
     super();
   }

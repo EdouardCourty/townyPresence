@@ -1,4 +1,6 @@
 const Monitor = require("./Monitor");
+const SafelistManager = require("./SafelistManager");
+const ChecklistManager = require("./ChecklistManager");
 const ZoneManager = require("./ZoneManager");
 const eventBus = require("../lib/eventBus");
 const EmbedSender = require("./EmbedSender");
@@ -123,7 +125,7 @@ class Broadcaster {
 
   startListsListeners() {
     eventBus.on("getSafelist", async (serverId, channel) => {
-      Monitor.getSafelist(serverId).then(list => {
+      SafelistManager.getSafelist(serverId).then(list => {
           EmbedSender.sendSimpleEmbed(channel, "Safelist dump", list.usernames.join("\n"), "success")
         }).catch(() => {
         EmbedSender.sendSimpleEmbed(
@@ -136,7 +138,7 @@ class Broadcaster {
     })
 
     eventBus.on("getChecklist", async (serverId, channel) => {
-      Monitor.getChecklist(serverId).then(list => {
+      ChecklistManager.getChecklist(serverId).then(list => {
         EmbedSender.sendSimpleEmbed(channel, "Checklist dump", list.usernames.join("\n"), "success")
       }).catch(() => {
         EmbedSender.sendSimpleEmbed(
@@ -149,74 +151,110 @@ class Broadcaster {
     })
 
     eventBus.on("addUserToSafelist", async (serverId, channel, username) => {
-      Monitor.addUserToSafelist(serverId, username).then(() => {
+      SafelistManager.addUserToSafelist(serverId, username).then(() => {
         EmbedSender.sendSimpleEmbed(
           channel,
           "Assignation complete.",
           `Username ${username} added to the safelist`,
           "success"
         )
-      }).catch(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "An error occured.",
-          `Username ${username} is already safelisted`,
-          "warning"
-        )
+      }).catch(e => {
+        if (e.e === "noConfig") {
+          EmbedSender.sendSimpleEmbed(
+            channel,
+            "Bad configuration",
+            "No configuration found, start the monitor once to create it automatically",
+            "warning"
+          )
+        } else {
+          EmbedSender.sendSimpleEmbed(
+            channel,
+            "An error occured.",
+            `Username ${username} is already safelisted`,
+            "warning"
+          )
+        }
       })
     })
 
     eventBus.on("addUserToChecklist", async (serverId, channel, username) => {
-      Monitor.addUserToChecklist(serverId, username).then(() => {
+      ChecklistManager.addUserToChecklist(serverId, username).then(() => {
         EmbedSender.sendSimpleEmbed(
           channel,
           "Assignation complete.",
           `Username ${username} added to the checklist`,
           "success"
         )
-      }).catch(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "An error occured.",
-          `Username ${username} is already checklisted`,
-          "warning"
-        )
+      }).catch(e => {
+        if (e.e === "noConfig") {
+          EmbedSender.sendSimpleEmbed(
+            channel,
+            "Bad configuration",
+            "No configuration found, start the monitor once to create it automatically",
+            "warning"
+          )
+        } else {
+          EmbedSender.sendSimpleEmbed(
+            channel,
+            "An error occured.",
+            `Username ${username} is already checklisted`,
+            "warning"
+          )
+        }
       })
     })
 
     eventBus.on("removeUserFromSafelist", async (serverId, channel, username) => {
-      Monitor.removeUserFromSafelist(serverId, username).then(() => {
+      SafelistManager.removeUserFromSafelist(serverId, username).then(() => {
         EmbedSender.sendSimpleEmbed(
           channel,
           "Remove complete.",
           `Username ${username} removed from the safelist`,
           "success"
         )
-      }).catch(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "An error occured.",
-          `Username ${username} is not safelisted`,
-          "warning"
-        )
+      }).catch(e => {
+        if (e.e === "noConfig") {
+          EmbedSender.sendSimpleEmbed(
+            channel,
+            "Bad configuration",
+            "No configuration found, start the monitor once to create it automatically",
+            "warning"
+          )
+        } else {
+          EmbedSender.sendSimpleEmbed(
+            channel,
+            "An error occured.",
+            `Username ${username} is not safelisted`,
+            "warning"
+          )
+        }
       })
     })
 
     eventBus.on("removeUserFromChecklist", async (serverId, channel, username) => {
-      Monitor.removeUserFromChecklist(serverId, username).then(() => {
+      ChecklistManager.removeUserFromChecklist(serverId, username).then(() => {
         EmbedSender.sendSimpleEmbed(
           channel,
           "Remove complete.",
           `Username ${username} removed from the checklist`,
           "success"
         )
-      }).catch(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "An error occured.",
-          `Username ${username} is not checklisted`,
-          "warning"
-        )
+      }).catch(e => {
+        if (e.e === "noConfig") {
+          EmbedSender.sendSimpleEmbed(
+            channel,
+            "An error occured.",
+            `Username ${username} is already checklisted`,
+            "warning"
+          )
+        } else {
+          EmbedSender.sendSimpleEmbed(
+            channel,
+            "An error occured.",
+            `Username ${username} is not checklisted`,
+            "warning"
+          )
+        }
       })
     })
 
@@ -226,7 +264,7 @@ class Broadcaster {
       }).catch(() => {
         EmbedSender.sendSimpleEmbed(
           channel,
-          "Zonelist dump",
+          "Zonelist dump failed",
           "No configuration found, start the monitor once to create it automatically",
           "warning"
         )
@@ -240,13 +278,22 @@ class Broadcaster {
           "Zone successfully created",
           `Zone ${zoneData.name} added to the zonelist`,
           "success")
-      }).catch(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "Zonelist dump",
-          "No configuration found, start the monitor once to create it automatically",
-          "warning"
-        )
+      }).catch(e => {
+        if (e.e === "noConfig") {
+          EmbedSender.sendSimpleEmbed(
+            channel,
+            "Bad configuration",
+            "No configuration found, start the monitor once to create it automatically",
+            "warning"
+          )
+        } else {
+          EmbedSender.sendSimpleEmbed(
+            channel,
+            "Zone add failed.",
+            "A zone with this name already exists",
+            "warning"
+          )
+        }
       })
     })
 
@@ -258,13 +305,22 @@ class Broadcaster {
           `Zone ${zoneName} removed from the zonelist`,
           "success"
         )
-      }).catch(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "An error occured.",
-          `Zone ${zoneName} is not in the zone list`,
-          "warning"
-        )
+      }).catch(e => {
+        if (e.e === "noConfig") {
+          EmbedSender.sendSimpleEmbed(
+            channel,
+            "Bad configuration",
+            "No configuration found, start the monitor once to create it automatically",
+            "warning"
+          )
+        } else {
+          EmbedSender.sendSimpleEmbed(
+            channel,
+            "An error occured.",
+            `Zone ${zoneName} is not in the zone list`,
+            "warning"
+          )
+        }
       })
     })
   }
