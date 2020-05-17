@@ -128,12 +128,7 @@ class Broadcaster {
       SafelistManager.getSafelist(serverId).then(list => {
           EmbedSender.sendSimpleEmbed(channel, "Safelist dump", list.usernames.join("\n"), "success")
         }).catch(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "Checklist dump",
-          "No configuration found, start the monitor once to create it automatically",
-          "warning"
-        )
+        EmbedSender.sendNoConfigEmbed()
       })
     })
 
@@ -141,12 +136,7 @@ class Broadcaster {
       ChecklistManager.getChecklist(serverId).then(list => {
         EmbedSender.sendSimpleEmbed(channel, "Checklist dump", list.usernames.join("\n"), "success")
       }).catch(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "Checklist dump",
-          "No configuration found, start the monitor once to create it automatically",
-          "warning"
-        )
+        EmbedSender.sendNoConfigEmbed()
       })
     })
 
@@ -160,12 +150,7 @@ class Broadcaster {
         )
       }).catch(e => {
         if (e.e === "noConfig") {
-          EmbedSender.sendSimpleEmbed(
-            channel,
-            "Bad configuration",
-            "No configuration found, start the monitor once to create it automatically",
-            "warning"
-          )
+          EmbedSender.sendNoConfigEmbed()
         } else {
           EmbedSender.sendSimpleEmbed(
             channel,
@@ -187,12 +172,7 @@ class Broadcaster {
         )
       }).catch(e => {
         if (e.e === "noConfig") {
-          EmbedSender.sendSimpleEmbed(
-            channel,
-            "Bad configuration",
-            "No configuration found, start the monitor once to create it automatically",
-            "warning"
-          )
+          EmbedSender.sendNoConfigEmbed()
         } else {
           EmbedSender.sendSimpleEmbed(
             channel,
@@ -214,12 +194,7 @@ class Broadcaster {
         )
       }).catch(e => {
         if (e.e === "noConfig") {
-          EmbedSender.sendSimpleEmbed(
-            channel,
-            "Bad configuration",
-            "No configuration found, start the monitor once to create it automatically",
-            "warning"
-          )
+          EmbedSender.sendNoConfigEmbed()
         } else {
           EmbedSender.sendSimpleEmbed(
             channel,
@@ -262,12 +237,7 @@ class Broadcaster {
       ZoneManager.getDocument(serverId).then(list => {
         EmbedSender.sendSimpleEmbed(channel, "Zonelist dump", list.zones.map(z => z.name).join("\n"), "success")
       }).catch(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "Zonelist dump failed",
-          "No configuration found, start the monitor once to create it automatically",
-          "warning"
-        )
+        EmbedSender.sendNoConfigEmbed()
       })
     })
 
@@ -280,12 +250,7 @@ class Broadcaster {
           "success")
       }).catch(e => {
         if (e.e === "noConfig") {
-          EmbedSender.sendSimpleEmbed(
-            channel,
-            "Bad configuration",
-            "No configuration found, start the monitor once to create it automatically",
-            "warning"
-          )
+          EmbedSender.sendNoConfigEmbed()
         } else {
           EmbedSender.sendSimpleEmbed(
             channel,
@@ -307,12 +272,7 @@ class Broadcaster {
         )
       }).catch(e => {
         if (e.e === "noConfig") {
-          EmbedSender.sendSimpleEmbed(
-            channel,
-            "Bad configuration",
-            "No configuration found, start the monitor once to create it automatically",
-            "warning"
-          )
+          EmbedSender.sendNoConfigEmbed()
         } else {
           EmbedSender.sendSimpleEmbed(
             channel,

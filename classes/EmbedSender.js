@@ -68,6 +68,15 @@ class EmbedSender {
       "No monitor is actually running.",
       "error")
   }
+
+  static sendNoConfigEmbed(channel) {
+    return this.sendSimpleEmbed(
+      channel,
+      "Bad configuration",
+      "No configuration found, start the monitor once to create it automatically",
+      "warning"
+    )
+  }
 }
 
 module.exports = EmbedSender;
