@@ -1,5 +1,5 @@
 require("colors");
 
 module.exports = (client, error) => {
-  console.log(`An error occurred. ${error}`.red);
+  console.log(`An error occurred. ${error.message}`.red);
 };
