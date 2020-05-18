@@ -51,20 +51,11 @@ class Broadcaster {
     eventBus.on("registerMonitor", async (serverId, channel) => {
       const monitorExists = this.monitors.filter(mon => mon.serverId === serverId)[0];
       if (monitorExists) {
-        await EmbedSender.sendSimpleEmbed(
-          channel,
-          "Monitor status information",
-          "Monitor is already running.",
-          "warning"
-        )
+        await EmbedSender.sendSimpleEmbed(channel, "Monitor status information", "Monitor is already running.", "warning")
       } else {
         const monitor = new Monitor(serverId);
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "Monitor status information",
-          "Monitor started successfully.",
-          "success"
-        ).then(message => {
+        EmbedSender.sendSimpleEmbed(channel, "Monitor status information", "Monitor started successfully.", "success")
+          .then(message => {
           monitor.setBaseMessage(message)
           this.monitors.push(monitor);
         })
@@ -76,19 +67,9 @@ class Broadcaster {
     eventBus.on("requestStatus", async (serverId, channel) => {
       const monitor = this.monitors.filter(monitor => monitor.serverId === serverId)[0]
       if (monitor) {
-        await EmbedSender.sendSimpleEmbed(
-          channel,
-          "Monitor status information",
-          "Monitor is up.",
-          "success"
-        )
+        await EmbedSender.sendSimpleEmbed(channel, "Monitor status information", "Monitor is up.", "success")
       } else {
-        await EmbedSender.sendSimpleEmbed(
-          channel,
-          "Monitor status information",
-          "Monitor is down.",
-          "error"
-        )
+        await EmbedSender.sendSimpleEmbed(channel, "Monitor status information", "Monitor is down.", "error")
       }
     });
   }
@@ -99,12 +80,7 @@ class Broadcaster {
       if (monitor) {
         await monitor.message.delete();
         this.monitors.splice(this.monitors.indexOf(monitor), 1)
-        await EmbedSender.sendSimpleEmbed(
-          channel,
-          "Monitor status information",
-          "The monitor has stopped working successfully.",
-          "success"
-        )
+        await EmbedSender.sendSimpleEmbed(channel, "Monitor status information", "The monitor has stopped working successfully.", "success")
       } else {
         await EmbedSender.sendNoMonitorRunning(channel)
       }
@@ -142,93 +118,48 @@ class Broadcaster {
 
     eventBus.on("addUserToSafelist", async (serverId, channel, username) => {
       SafelistManager.addUserToSafelist(serverId, username).then(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "Assignation complete.",
-          `Username ${username} added to the safelist`,
-          "success"
-        )
+        EmbedSender.sendSimpleEmbed(channel, "Assignation complete.", `Username ${username} added to the safelist`, "success")
       }).catch(e => {
         if (e.e === "noConfig") {
           EmbedSender.sendNoConfigEmbed()
         } else {
-          EmbedSender.sendSimpleEmbed(
-            channel,
-            "An error occured.",
-            `Username ${username} is already safelisted`,
-            "warning"
-          )
+          EmbedSender.sendSimpleEmbed(channel, "An error occured.", `Username ${username} is already safelisted`, "warning")
         }
       })
     })
 
     eventBus.on("addUserToChecklist", async (serverId, channel, username) => {
       ChecklistManager.addUserToChecklist(serverId, username).then(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "Assignation complete.",
-          `Username ${username} added to the checklist`,
-          "success"
-        )
+        EmbedSender.sendSimpleEmbed(channel, "Assignation complete.", `Username ${username} added to the checklist`, "success")
       }).catch(e => {
         if (e.e === "noConfig") {
           EmbedSender.sendNoConfigEmbed()
         } else {
-          EmbedSender.sendSimpleEmbed(
-            channel,
-            "An error occured.",
-            `Username ${username} is already checklisted`,
-            "warning"
-          )
+          EmbedSender.sendSimpleEmbed(channel, "An error occured.", `Username ${username} is already checklisted`, "warning")
         }
       })
     })
 
     eventBus.on("removeUserFromSafelist", async (serverId, channel, username) => {
       SafelistManager.removeUserFromSafelist(serverId, username).then(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "Remove complete.",
-          `Username ${username} removed from the safelist`,
-          "success"
-        )
+        EmbedSender.sendSimpleEmbed(channel, "Remove complete.", `Username ${username} removed from the safelist`, "success")
       }).catch(e => {
         if (e.e === "noConfig") {
           EmbedSender.sendNoConfigEmbed()
         } else {
-          EmbedSender.sendSimpleEmbed(
-            channel,
-            "An error occured.",
-            `Username ${username} is not safelisted`,
-            "warning"
-          )
+          EmbedSender.sendSimpleEmbed(channel, "An error occured.", `Username ${username} is not safelisted`, "warning")
         }
       })
     })
 
     eventBus.on("removeUserFromChecklist", async (serverId, channel, username) => {
       ChecklistManager.removeUserFromChecklist(serverId, username).then(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "Remove complete.",
-          `Username ${username} removed from the checklist`,
-          "success"
-        )
+        EmbedSender.sendSimpleEmbed(channel, "Remove complete.", `Username ${username} removed from the checklist`, "success")
       }).catch(e => {
         if (e.e === "noConfig") {
-          EmbedSender.sendSimpleEmbed(
-            channel,
-            "An error occured.",
-            `Username ${username} is already checklisted`,
-            "warning"
-          )
+          EmbedSender.sendSimpleEmbed(channel, "An error occured.", `Username ${username} is already checklisted`, "warning")
         } else {
-          EmbedSender.sendSimpleEmbed(
-            channel,
-            "An error occured.",
-            `Username ${username} is not checklisted`,
-            "warning"
-          )
+          EmbedSender.sendSimpleEmbed(channel, "An error occured.", `Username ${username} is not checklisted`, "warning")
         }
       })
     })
@@ -243,43 +174,24 @@ class Broadcaster {
 
     eventBus.on("addZone", async (serverId, channel, zoneData) => {
       ZoneManager.addZone(serverId, zoneData).then(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "Zone successfully created",
-          `Zone ${zoneData.name} added to the zonelist`,
-          "success")
+        EmbedSender.sendSimpleEmbed(channel, "Zone successfully created", `Zone ${zoneData.name} added to the zonelist`, "success")
       }).catch(e => {
         if (e.e === "noConfig") {
           EmbedSender.sendNoConfigEmbed()
         } else {
-          EmbedSender.sendSimpleEmbed(
-            channel,
-            "Zone add failed.",
-            "A zone with this name already exists",
-            "warning"
-          )
+          EmbedSender.sendSimpleEmbed(channel, "Zone add failed.", "A zone with this name already exists", "warning")
         }
       })
     })
 
     eventBus.on("removeZone", async (serverId, channel, zoneName) => {
       ZoneManager.removeZone(serverId, zoneName).then(() => {
-        EmbedSender.sendSimpleEmbed(
-          channel,
-          "Remove complete.",
-          `Zone ${zoneName} removed from the zonelist`,
-          "success"
-        )
+        EmbedSender.sendSimpleEmbed(channel, "Remove complete.", `Zone ${zoneName} removed from the zonelist`, "success")
       }).catch(e => {
         if (e.e === "noConfig") {
           EmbedSender.sendNoConfigEmbed()
         } else {
-          EmbedSender.sendSimpleEmbed(
-            channel,
-            "An error occured.",
-            `Zone ${zoneName} is not in the zone list`,
-            "warning"
-          )
+          EmbedSender.sendSimpleEmbed(channel, "An error occured.", `Zone ${zoneName} is not in the zone list`, "warning")
         }
       })
     })
