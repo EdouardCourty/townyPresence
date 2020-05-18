@@ -41,10 +41,6 @@ class DataProcessor {
       }
     }
   }
-
-  getZones() {
-
-  }
 }
 
 module.exports = DataProcessor;
